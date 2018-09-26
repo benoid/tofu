@@ -63,7 +63,7 @@
           [(eq? char soy-end-char) toklist]
           [(hash-has-key? tokmap char) 
            (tokenize in-port (cons ((hash-ref tokmap char)) toklist))]
-          [else (error "invalid token: " char)]))))
+          [else (error "Tofu Syntax error: invalid token: " char)]))))
   (reverse (tokenize in (list))))
 
 (define (soy-eval prg)
