@@ -40,12 +40,13 @@
   (define lines (port->lines in))
   (define new-lines
     (for/list ([str lines])
-      (define str-list (string-split str "`"))
-      (string-join
-        (for/list ([s str-list]
-                   [i (range (length str-list))]
-                    #:when (even? i))
-        s) "")))
+      (define str-list (string-split (string-append "*" str) "`"))
+      (substring
+        (string-join
+          (for/list ([s str-list]
+                     [i (range (length str-list))]
+                      #:when (even? i))
+          s) "") 1)))
    (string-join new-lines "\n"))
 
 
