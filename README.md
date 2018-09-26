@@ -11,6 +11,32 @@ increment byte:     ^
 decrement byte:     _
 move pointer left:  |
 move pointer right: I
+comment begin/end:  `
 ```
 
-See hello.tofu for an example of a "Hello, World!" program.
+
+
+Hello, World in tofu
+```
+#lang tofu
+
+^^^^^^[I^^^^`
+^^^^^^^^|_]I.
+I^^^^^^^^^^[I
+^^^^^^^^^^|_]
+I^.^^^^^^^..^
+^^.I^^^^[I^^^
+
+                 ^^^^
+                 ^^^^
+                 |_]I  .
+
+
+|^^^[I___    _|_]I.
+|||||^^^[    I^^^^^
+|_]I.II.^    ^^.___
+             ___.__
+             ______ 
+
+   .II^.
+```
