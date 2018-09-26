@@ -48,6 +48,7 @@
         s) "")))
    (string-join new-lines "\n"))
 
+
 (define (soy-lex in)
   (define (tokenize in-port toklist)
     (define byte (read-byte in))
@@ -106,7 +107,8 @@
         [(soy-out) (write-byte!)]
         [(soy-loop stuff) 
            (loop-eval! stuff)])))
-  (stx-eval! prg))
+  (stx-eval! prg)
+  tape)
 
 (define (soy-read-syntax src in)
  (define raw (port->string in))
@@ -117,8 +119,8 @@
                [eval soy-eval])
   (strip-context 
 #'(module soy racket/base
-        (provide data)
+        (provide data tape)
         (define soy-eval 'eval)
         (define data 'data1)
-        (soy-eval data)
+        (define tape (soy-eval data))
         (newline)))))
