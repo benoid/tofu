@@ -29,7 +29,8 @@
   (define height (get-tofu-height vlines i j))
   (define bottom-width 
     (get-tofu-width (vector-ref vlines (+ i (- height 1)))))
-  (if (not (and (= bottom-width width))) #f
+  (if (not (and (= bottom-width width)))
+    (error "Tofu Syntax Error:  cubed or go home: <" (+ i 1) ", " j ">")
     (for/and ([k (range i (+ i height))])
       (define start (get-char vlines k j))
       (define end (get-char vlines k (+ j (- width 1))))

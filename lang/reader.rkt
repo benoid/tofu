@@ -123,5 +123,4 @@
         (provide data tape)
         (define soy-eval 'eval)
         (define data 'data1)
-        (define tape (soy-eval data))
-        (newline)))))
+        (define tape (soy-eval data))))))
