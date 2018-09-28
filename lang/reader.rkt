@@ -21,6 +21,7 @@
 (struct soy-out () #:transparent)
 (struct soy-begin () #:transparent)
 (struct soy-end () #:transparent)
+(struct soy-flush () #:transparent)
 (struct soy-loop [stuff] #:transparent)
 
 (define soy-begin-char #\[)
@@ -29,6 +30,7 @@
 (define tokmap
 (make-hash
   (list
+    (cons #\%  soy-flush)
     (cons #\^  soy-inc)
     (cons #\_  soy-dec)
     (cons #\|  soy-left)
@@ -48,7 +50,6 @@
                       #:when (even? i))
           s) "") 1)))
    (string-join new-lines "\n"))
-
 
 (define (soy-lex in)
   (define (tokenize in-port toklist)
@@ -83,17 +84,17 @@
     (set! pointer (- pointer 1)))
   (define (inc-byte!)
     (check-byte!)
-    (hash-set! tape pointer (+ (hash-ref tape pointer) 1)))
+    (hash-set! tape pointer (+ (current-byte) 1)))
   (define (dec-byte!)
     (check-byte!)
-    (hash-set! tape pointer (- (hash-ref tape pointer) 1)))
+    (hash-set! tape pointer (- (current-byte) 1)))
   (define (read-byte!)
     (check-byte!)
     (hash-set! tape pointer (read-byte)))
   (define (write-byte!)
     (check-byte!)
-    (write-byte (hash-ref tape pointer)))
-    ;(printf "~a\n\n" tape))
+    ;(printf "~a: ~a\n\n" pointer tape)
+    (write-byte (current-byte)))
   (define (loop-eval! stuff)
     (if (= (current-byte) 0) (void)
       (begin (stx-eval! stuff) (loop-eval! stuff))))
@@ -106,6 +107,7 @@
         [(soy-right) (move-right!)]
         [(soy-in) (read-byte!)]
         [(soy-out) (write-byte!)]
+        [(soy-flush) (flush-output)]
         [(soy-loop stuff) 
            (loop-eval! stuff)])))
   (stx-eval! prg)
