@@ -1,6 +1,8 @@
 tofu
 ====
 
+`raco pkg install https://github.com/benoid/tofu.git`
+
 An implementation of a bf-like language in Racket.
 Source code must be neatly cubed.
 
